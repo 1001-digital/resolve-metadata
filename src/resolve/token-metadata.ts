@@ -1,16 +1,9 @@
 import type { TokenMetadata, TokenMetadataLocalization } from '../types'
 import { isArray, isNumber, isObject, isString } from '../utils/is'
+import { extractString, extractStringWithAlias } from '../utils/extract'
 import { normalizeUri } from '../normalize/uri'
 import { normalizeAttributes } from '../normalize/attributes'
 import { normalizeColor } from '../normalize/color'
-
-const URI_FIELDS = ['image', 'animation_url', 'external_url'] as const
-
-const ALIASES: Record<string, string> = {
-  image_url: 'image',
-  animation: 'animation_url',
-  external_link: 'external_url',
-}
 
 const KNOWN_KEYS = new Set([
   'name',
@@ -27,11 +20,6 @@ const KNOWN_KEYS = new Set([
   'properties',
   'localization',
 ])
-
-function extractString(obj: Record<string, unknown>, key: string): string | null {
-  const val = obj[key]
-  return isString(val) && val ? val : null
-}
 
 function resolveLocalization(
   input: unknown,
@@ -53,63 +41,46 @@ function resolveLocalization(
   }
 }
 
-function applyAliases(obj: Record<string, unknown>): Record<string, unknown> {
-  const result = { ...obj }
-
-  for (const [alias, canonical] of Object.entries(ALIASES)) {
-    if (result[alias] != null && result[canonical] == null) {
-      result[canonical] = result[alias]
-    }
-  }
-
-  return result
+function normalizeUriField(obj: Record<string, unknown>, key: string, alias?: string): string | null {
+  const val = extractStringWithAlias(obj, key, alias)
+  return val ? normalizeUri(val) : null
 }
 
 export function resolveTokenMetadata(input: unknown): TokenMetadata {
-  const empty: TokenMetadata = {
-    name: null,
-    description: null,
-    image: null,
-    animation_url: null,
-    external_url: null,
-    background_color: null,
-    attributes: [],
-    decimals: null,
-    properties: null,
-    localization: null,
-    extra: {},
-  }
-
-  if (!isObject(input)) return empty
-
-  const obj = applyAliases(input)
-
-  const result: TokenMetadata = {
-    name: extractString(obj, 'name'),
-    description: extractString(obj, 'description'),
-    image: null,
-    animation_url: null,
-    external_url: null,
-    background_color: normalizeColor(obj.background_color),
-    attributes: normalizeAttributes(obj.attributes),
-    decimals: isNumber(obj.decimals) ? obj.decimals : null,
-    properties: isObject(obj.properties) ? obj.properties : null,
-    localization: resolveLocalization(obj.localization),
-    extra: {},
-  }
-
-  // Normalize URI fields
-  for (const field of URI_FIELDS) {
-    const val = extractString(obj, field)
-    result[field] = val ? normalizeUri(val) : null
-  }
-
-  // Collect extra fields
-  for (const [key, val] of Object.entries(obj)) {
-    if (!KNOWN_KEYS.has(key)) {
-      result.extra[key] = val
+  if (!isObject(input)) {
+    return {
+      name: null,
+      description: null,
+      image: null,
+      animation_url: null,
+      external_url: null,
+      background_color: null,
+      attributes: [],
+      decimals: null,
+      properties: null,
+      localization: null,
+      extra: {},
     }
   }
 
-  return result
+  const extra: Record<string, unknown> = {}
+  for (const [key, val] of Object.entries(input)) {
+    if (!KNOWN_KEYS.has(key)) {
+      extra[key] = val
+    }
+  }
+
+  return {
+    name: extractString(input, 'name'),
+    description: extractString(input, 'description'),
+    image: normalizeUriField(input, 'image', 'image_url'),
+    animation_url: normalizeUriField(input, 'animation_url', 'animation'),
+    external_url: normalizeUriField(input, 'external_url', 'external_link'),
+    background_color: normalizeColor(input.background_color),
+    attributes: normalizeAttributes(input.attributes),
+    decimals: isNumber(input.decimals) ? input.decimals : null,
+    properties: isObject(input.properties) ? input.properties : null,
+    localization: resolveLocalization(input.localization),
+    extra,
+  }
 }

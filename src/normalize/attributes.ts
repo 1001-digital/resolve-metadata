@@ -5,8 +5,7 @@ const NUMERIC_RE = /^-?\d+(\.\d+)?$/
 
 function coerceValue(value: unknown): string | number {
   if (isNumber(value)) return value
-  if (isString(value) && NUMERIC_RE.test(value)) return Number(value)
-  if (isString(value)) return value
+  if (isString(value)) return NUMERIC_RE.test(value) ? Number(value) : value
   return String(value)
 }
 
