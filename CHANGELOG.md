@@ -1,5 +1,11 @@
 # @1001-digital/resolve-metadata
 
+## 1.0.1
+
+### Patch Changes
+
+- [`257c692`](https://github.com/1001-digital/resolve-metadata/commit/257c692ccd7846b8337890689b5ce0b6589619d9) Thanks [@jwahdatehagh](https://github.com/jwahdatehagh)! - Fix redundant path segments in protocol URIs (`ipfs://ipfs/…` → `ipfs://…`, `ipns://ipns/…` → `ipns://…`).
+
 ## 1.0.0
 
 ### Major Changes
