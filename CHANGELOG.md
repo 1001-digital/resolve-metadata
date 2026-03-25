@@ -1,5 +1,11 @@
 # @1001-digital/resolve-metadata
 
+## 1.0.2
+
+### Patch Changes
+
+- [`80cdb39`](https://github.com/1001-digital/resolve-metadata/commit/80cdb3917924063906d84d10b1ff288032ae435c) Thanks [@jwahdatehagh](https://github.com/jwahdatehagh)! - Add `isResolvableUri` type guard and fix redundant path segments in protocol URIs (`ipfs://ipfs/…` → `ipfs://…`, `ipns://ipns/…` → `ipns://…`).
+
 ## 1.0.1
 
 ### Patch Changes
