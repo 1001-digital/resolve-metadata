@@ -19,11 +19,13 @@ export function normalizeUri(uri: string): string {
   const trimmed = uri.trim()
   if (!trimmed) return ''
 
-  if (
-    trimmed.startsWith('ipfs://') ||
-    trimmed.startsWith('ipns://') ||
-    trimmed.startsWith('ar://')
-  ) {
+  if (trimmed.startsWith('ipfs://')) {
+    return trimmed.replace(/^ipfs:\/\/ipfs\//, 'ipfs://')
+  }
+  if (trimmed.startsWith('ipns://')) {
+    return trimmed.replace(/^ipns:\/\/ipns\//, 'ipns://')
+  }
+  if (trimmed.startsWith('ar://')) {
     return trimmed
   }
 

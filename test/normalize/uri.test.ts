@@ -36,6 +36,18 @@ describe('normalizeUri', () => {
     it('passes through ipfs:// with {id} template', () => {
       expect(normalizeUri('ipfs://QmXxx/{id}.json')).toBe('ipfs://QmXxx/{id}.json')
     })
+
+    it('strips redundant ipfs path from ipfs:// URI', () => {
+      expect(normalizeUri('ipfs://ipfs/QmXxx')).toBe('ipfs://QmXxx')
+    })
+
+    it('strips redundant ipfs path and preserves rest of path', () => {
+      expect(normalizeUri('ipfs://ipfs/QmXxx/1001/metadata.json')).toBe('ipfs://QmXxx/1001/metadata.json')
+    })
+
+    it('strips redundant ipns path from ipns:// URI', () => {
+      expect(normalizeUri('ipns://ipns/example.eth')).toBe('ipns://example.eth')
+    })
   })
 
   describe('IPFS path-based gateways', () => {
