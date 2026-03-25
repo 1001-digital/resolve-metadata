@@ -12,6 +12,16 @@ const ARWEAVE_GATEWAYS = [
 
 const CID_V0_RE = /^Qm[1-9A-HJ-NP-Za-km-z]{44}$/
 const CID_V1_RE = /^baf[a-z2-7]{56,}$/
+const PROTOCOL_RE = /^(ipfs|ipns|ar|https?):\/\//
+
+export function isResolvableUri(value: unknown): value is string {
+  if (typeof value !== 'string' || value.length < 5) return false
+  if (!value.startsWith('data:') && value.length > 2048) return false
+
+  return PROTOCOL_RE.test(value)
+    || value.startsWith('data:')
+    || CID_V0_RE.test(value) || CID_V1_RE.test(value)
+}
 
 export function normalizeUri(uri: string): string {
   if (!uri) return ''

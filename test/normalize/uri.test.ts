@@ -1,4 +1,60 @@
-import { normalizeUri } from '../../src/normalize/uri'
+import { normalizeUri, isResolvableUri } from '../../src/normalize/uri'
+
+describe('isResolvableUri', () => {
+  it('accepts ipfs:// URIs', () => {
+    expect(isResolvableUri('ipfs://QmXxx')).toBe(true)
+  })
+
+  it('accepts ipns:// URIs', () => {
+    expect(isResolvableUri('ipns://example.eth')).toBe(true)
+  })
+
+  it('accepts ar:// URIs', () => {
+    expect(isResolvableUri('ar://txId123')).toBe(true)
+  })
+
+  it('accepts data: URIs', () => {
+    expect(isResolvableUri('data:application/json;base64,eyJuYW1lIjoiVGVzdCJ9')).toBe(true)
+  })
+
+  it('accepts any https URL', () => {
+    expect(isResolvableUri('https://api.otherside.xyz/lands/1')).toBe(true)
+  })
+
+  it('accepts any http URL', () => {
+    expect(isResolvableUri('http://example.com/nft/42')).toBe(true)
+  })
+
+  it('accepts raw CIDv0', () => {
+    expect(isResolvableUri('QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG')).toBe(true)
+  })
+
+  it('accepts raw CIDv1', () => {
+    expect(isResolvableUri('bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3okuber3rmntpre')).toBe(true)
+  })
+
+  it('rejects non-strings', () => {
+    expect(isResolvableUri(42)).toBe(false)
+    expect(isResolvableUri(null)).toBe(false)
+  })
+
+  it('rejects short strings', () => {
+    expect(isResolvableUri('abc')).toBe(false)
+  })
+
+  it('rejects random strings', () => {
+    expect(isResolvableUri('hello world')).toBe(false)
+  })
+
+  it('rejects strings over 2048 chars', () => {
+    expect(isResolvableUri('https://example.com/' + 'a'.repeat(2048))).toBe(false)
+  })
+
+  it('does not apply length limit to data URIs', () => {
+    const longData = 'data:application/json;base64,' + 'a'.repeat(3000)
+    expect(isResolvableUri(longData)).toBe(true)
+  })
+})
 
 describe('normalizeUri', () => {
   describe('empty / falsy input', () => {
