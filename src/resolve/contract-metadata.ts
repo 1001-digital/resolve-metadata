@@ -1,7 +1,7 @@
 import type { ContractMetadata } from '../types'
 import { isArray, isObject, isString } from '../utils/is'
 import { extractString, extractStringWithAlias } from '../utils/extract'
-import { normalizeUri } from '../normalize/uri'
+import { normalizeUri } from '@1001-digital/normalize-dweb-url'
 
 const KNOWN_KEYS = new Set([
   'name',

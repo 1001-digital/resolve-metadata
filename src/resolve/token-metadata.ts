@@ -1,7 +1,7 @@
 import type { TokenMetadata, TokenMetadataLocalization } from '../types'
 import { isArray, isNumber, isObject, isString } from '../utils/is'
 import { extractString, extractStringWithAlias } from '../utils/extract'
-import { normalizeUri } from '../normalize/uri'
+import { normalizeUri } from '@1001-digital/normalize-dweb-url'
 import { normalizeAttributes } from '../normalize/attributes'
 import { normalizeColor } from '../normalize/color'
 

@@ -10,6 +10,9 @@ export default defineConfig({
       formats: ['es'],
       fileName: 'index',
     },
+    rollupOptions: {
+      external: ['@1001-digital/normalize-dweb-url'],
+    },
   },
   plugins: [
     dts({ rollupTypes: true }),

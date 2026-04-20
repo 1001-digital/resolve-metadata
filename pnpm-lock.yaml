@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@1001-digital/normalize-dweb-url':
+        specifier: ^0.1.0
+        version: 0.1.0
     devDependencies:
       '@changesets/changelog-github':
         specifier: ^0.6.0
@@ -31,6 +35,9 @@ importers:
         version: 3.2.4
 
 packages:
+
+  '@1001-digital/normalize-dweb-url@0.1.0':
+    resolution: {integrity: sha512-gT+81Yf93OAR5bfSipsMY5CwwMk6AxQX0PH3046qkfuj5QPsA3AUyZt7JgDlTKxuTMjmLVkETw1HF+j6aEuXcw==}
 
   '@babel/helper-string-parser@7.27.1':
     resolution: {integrity: sha512-qMlSxKbpRlAridDExk92nSobyDdpPijUq2DW6oDnUqd0iOGxmQjyqhMIihI9+zv4LPyZdRje2cavWPbCbWm3eA==}
@@ -1302,6 +1309,8 @@ packages:
     resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
 
 snapshots:
+
+  '@1001-digital/normalize-dweb-url@0.1.0': {}
 
   '@babel/helper-string-parser@7.27.1': {}
 

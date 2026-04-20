@@ -40,5 +40,8 @@
     "vite-plugin-dts": "^4.0.0",
     "vitest": "^3.0.0"
   },
-  "packageManager": "pnpm@10.30.0"
+  "packageManager": "pnpm@10.30.0",
+  "dependencies": {
+    "@1001-digital/normalize-dweb-url": "^0.1.0"
+  }
 }
