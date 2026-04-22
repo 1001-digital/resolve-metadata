@@ -1,6 +1,6 @@
 {
   "name": "@1001-digital/resolve-metadata",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Normalize NFT token and contract metadata into a strict typed schema.",
   "license": "MIT",
   "repository": {
