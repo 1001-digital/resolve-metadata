@@ -10,6 +10,7 @@ const KNOWN_KEYS = new Set([
   'description',
   'image',
   'image_url',
+  'image_data',
   'animation_url',
   'animation',
   'external_url',
@@ -41,8 +42,12 @@ function resolveLocalization(
   }
 }
 
-function normalizeUriField(obj: Record<string, unknown>, key: string, alias?: string): string | null {
-  const val = extractStringWithAlias(obj, key, alias)
+function normalizeUriField(
+  obj: Record<string, unknown>,
+  key: string,
+  ...aliases: string[]
+): string | null {
+  const val = extractStringWithAlias(obj, key, ...aliases)
   return val ? normalizeUri(val) : null
 }
 
@@ -73,7 +78,7 @@ export function resolveTokenMetadata(input: unknown): TokenMetadata {
   return {
     name: extractString(input, 'name'),
     description: extractString(input, 'description'),
-    image: normalizeUriField(input, 'image', 'image_url'),
+    image: normalizeUriField(input, 'image', 'image_url', 'image_data'),
     animation_url: normalizeUriField(input, 'animation_url', 'animation'),
     external_url: normalizeUriField(input, 'external_url', 'external_link'),
     background_color: normalizeColor(input.background_color),

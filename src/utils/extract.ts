@@ -8,7 +8,12 @@ export function extractString(obj: Record<string, unknown>, key: string): string
 export function extractStringWithAlias(
   obj: Record<string, unknown>,
   key: string,
-  alias?: string,
+  ...aliases: string[]
 ): string | null {
-  return extractString(obj, key) ?? (alias ? extractString(obj, alias) : null)
+  for (const candidate of [key, ...aliases]) {
+    const value = extractString(obj, candidate)
+    if (value) return value
+  }
+
+  return null
 }
