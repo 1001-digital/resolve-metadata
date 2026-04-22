@@ -99,6 +99,13 @@ describe('resolveTokenMetadata', () => {
       expect(result.image).toBe('ipfs://QmXxx')
     })
 
+    it('maps image_data to image as a final fallback', () => {
+      const result = resolveTokenMetadata({
+        image_data: 'https://ipfs.io/ipfs/QmInlineImage',
+      })
+      expect(result.image).toBe('ipfs://QmInlineImage')
+    })
+
     it('maps animation to animation_url', () => {
       const result = resolveTokenMetadata({
         animation: 'ipfs://QmVideo',
@@ -117,8 +124,17 @@ describe('resolveTokenMetadata', () => {
       const result = resolveTokenMetadata({
         image: 'ipfs://canonical',
         image_url: 'ipfs://alias',
+        image_data: 'ipfs://fallback',
       })
       expect(result.image).toBe('ipfs://canonical')
+    })
+
+    it('prefers image_url over image_data', () => {
+      const result = resolveTokenMetadata({
+        image_url: 'ipfs://alias',
+        image_data: 'ipfs://fallback',
+      })
+      expect(result.image).toBe('ipfs://alias')
     })
   })
 

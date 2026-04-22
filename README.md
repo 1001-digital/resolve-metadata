@@ -88,7 +88,7 @@ IPFS gateways are detected by path (`/ipfs/`, `/ipns/`) and subdomain (`.ipfs.`,
 | `background_color` | Strips `#`, expands 3-char to 6-char, lowercases |
 | Attributes `[{ trait_type, value }]` | Unified from multiple formats (see below) |
 | Numeric string attribute values (`"42"`) | Coerced to numbers |
-| Field aliases (`image_url`, `animation`, `external_link`) | Mapped to canonical names |
+| Field aliases (`image_url`, `image_data`, `animation`, `external_link`) | Mapped to canonical names |
 | ERC-1155 fields (`decimals`, `properties`, `localization`) | Extracted when present |
 | Unknown fields | Preserved in `extra` |
 
